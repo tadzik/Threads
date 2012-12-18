@@ -18,6 +18,11 @@ class Task {
     method join {
         pir::wait__0P($!task);
     }
+
+    method kill {
+        $!task.kill();
+        1;
+    }
 }
 
 sub async(&code) is export {
