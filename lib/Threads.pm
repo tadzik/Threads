@@ -11,6 +11,8 @@ class Task {
         my Mu $task := pir::new__PSP('Task', $do);
         nqp::bindattr(self, Task, '$!task', $task);
         pir::schedule__0P($task);
+
+        return self; # allow chaining
     }
 
     method join {
@@ -23,9 +25,5 @@ sub async(&code) is export {
         &code()
     };
 
-    my $t = Task.new(code => $wrapper);
-
-    $t.schedule;
-
-    return $t;
+    return Task.new(code => $wrapper).schedule
 }
