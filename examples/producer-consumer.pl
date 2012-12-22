@@ -4,7 +4,7 @@ use Semaphore;
 
 my @elements;
 my $free-slots = Semaphore.new(value => 10); # 10 remaining slots
-my $full-slots = Semaphore.new(value => 0); # 10 remaining slots
+my $full-slots = Semaphore.new(value => 0);  # 10 slots taken
 
 sub produce($id) {
     my $i = 0;
@@ -16,7 +16,6 @@ sub produce($id) {
         $i++;
         note "Now present {+@elements} elements";
         $full-slots.post; # there is now one more full slot
-        1;
     }
 }
 
@@ -27,7 +26,6 @@ sub consume($id) {
         my $a = @elements.shift;
         note "Consumer $id eating $a";
         $free-slots.post; # there is now one more free slot
-        1;
     }
 }
 
